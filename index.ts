@@ -1,30 +1,35 @@
 interface Weapon{
     damage: number;
-    attack(): number
+    attack(): number;
     
     
 }
 class Sword implements Weapon{
     damage: number = 20;
     attack(): number {
-        const chance = Math.random()
+        const chance = Math.random();
         if (chance <= 0.25){
-            return this.damage * 2
+            return this.damage * 2;
         }
-        return this.damage
+        return this.damage;
     }
 
 }
 class Spear implements Weapon {
     damage: number = 15;
     attack(): number {
-        
+        return this.damage;     
     }
-    dodge(): void{
-        const chance = Math.random();
-        if(chance <= 0.15){
-            Gladiator.takeDamage()
-        }
+    
+}
+class Axe implements Weapon{
+    rageDamage: number = 0;
+    rageBonus: number = 2;
+    damage: number = 30;
+    attack(): number{
+        const rage = this.damage + this.rageDamage;
+        this.rageDamage += this.rageBonus;
+        return rage;        
     }
 }
 class Gladiator{
@@ -51,4 +56,6 @@ const gradiator1 = new Gladiator("Василий", 100,new Spear())
 const gladiator2 = new Gladiator("Николай", 100,new Sword())
 gradiator1.attack(gladiator2)
 gladiator2.attack(gradiator1)
-const takeDamage: Gladiator = takeDamage()
+gladiator2.attack(gradiator1)
+
+
