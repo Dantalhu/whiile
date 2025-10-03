@@ -15,7 +15,18 @@ class Sword implements Weapon{
     }
 
 }
-
+class Spear implements Weapon {
+    damage: number = 15;
+    attack(): number {
+        
+    }
+    dodge(): void{
+        const chance = Math.random();
+        if(chance <= 0.15){
+            Gladiator.takeDamage()
+        }
+    }
+}
 class Gladiator{
 
     constructor(public name: string, public health: number, public weapon: Weapon){
@@ -32,8 +43,12 @@ class Gladiator{
     isDead(): boolean{
         return this.health <= 0
     }
+    showStats(): void{
+        console.log(`Имя: ${this.name} Здоровье: ${this.health} Оружие: ${this.weapon}`)
+    }
 }
-const gradiator1 = new Gladiator("Василий", 100,new Sword())
+const gradiator1 = new Gladiator("Василий", 100,new Spear())
 const gladiator2 = new Gladiator("Николай", 100,new Sword())
 gradiator1.attack(gladiator2)
 gladiator2.attack(gradiator1)
+const takeDamage: Gladiator = takeDamage()
