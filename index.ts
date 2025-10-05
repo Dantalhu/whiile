@@ -20,7 +20,6 @@ class Sword implements Weapon {
     attack(): number {
         const chance = Math.random();
         if (chance <= 0.25) {
-            console.log('  (Критический удар!)');
             return this.damage * 2;
         }
         return this.damage;
@@ -34,8 +33,25 @@ class Sword implements Weapon {
 class Spear implements Weapon {
     damage: number = 15;
     
+   private dodgeActive: boolean = false;
+    
     attack(): number {
+        const dodgeChance = Math.random();
+        if (dodgeChance <= 0.15) {
+            this.dodgeActive = true;
+        }
         return this.damage;
+    }
+    
+    // Метод проверяет, нужно ли уклониться от атаки
+    shouldDodge(): boolean {
+        // Если уклонение активно
+        if (this.dodgeActive) {
+            // Сбрасываем флаг (уклонение используется только один раз)
+            this.dodgeActive = false;
+            return true;
+        }
+        return false;
     }
     
     getName(): string {
@@ -63,11 +79,16 @@ class Gladiator {
     constructor(public name: string, public health: number, public weapon: Weapon) {}
 
     attack(target: Gladiator): number {
+         if (target.weapon.shouldDodge && target.weapon.shouldDodge()) {
+            console.log(`  ${target.name} уклонился от атаки!`);
+            return 0; // Урон не нанесен
+        }
+        
+        // Если уклонения не было, наносим урон
         const damage = this.weapon.attack();
         target.takeDamage(damage);
         return damage;
     }
-
     takeDamage(damage: number): void {
         this.health -= damage;
     }
